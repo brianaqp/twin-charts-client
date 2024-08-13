@@ -1,0 +1,33 @@
+@use '@picocss/pico/scss/colors' as *;
+
+.loaded-page {
+  opacity: 0;
+  transition: opacity 0.3s ease-in-out;
+
+  &.loaded {
+    opacity: 1;
+  }
+}
+
+.loading-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  article {
+    width: 400px;
+    height: 300px;
+    margin: 0 auto;
+  }
+}
+
+.error-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  article {
+    width: 600px;
+  }
+}

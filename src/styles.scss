@@ -1,0 +1,11 @@
+/* You can add global styles to this file, and also import other style files */
+@use '@picocss/pico/scss' as pico;
+@import 'bootstrap-icons/font/bootstrap-icons.css';
+
+.bootstrap {
+  @import 'bootstrap/scss/bootstrap';
+}
+
+body {
+  font-family: Tahoma, 'Segoe UI', Geneva, Verdana, sans-serif;
+}

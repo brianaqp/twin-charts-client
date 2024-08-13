@@ -1,0 +1,78 @@
+<div>
+  <article class="bootstrap">
+    <header>
+      <fieldset>
+        <legend>Puertos de México</legend>
+        <p>Seleccione los puertos que quiera comparar en la gráfica.</p>
+        <div class="row">
+          @for (port of portsState; track $index) {
+            <div class="col-3 mt-1">
+              <input
+                type="checkbox"
+                [id]="port.name"
+                [name]="port.name"
+                [(ngModel)]="port.status"
+                (change)="onCheckboxChange(port.name, port.status)"
+              />
+              <label [for]="port.name" class="ms-1 text-capitalize">{{
+                port.name.toLocaleLowerCase()
+              }}</label>
+            </div>
+          }
+        </div>
+      </fieldset>
+    </header>
+    <div class="row">
+      <p class="h4 text-center" style="color: rgb(70, 65, 65); margin-bottom: 20px;">
+        Top 15 productos con mayor presencia en puertos de México
+      </p>
+    </div>
+    <div class="chart" #barDivContainer></div>
+  </article>
+  <article>
+    <div>
+      <label for="searchInput">Busqueda por producto</label>
+      <input
+        id="searchInput"
+        type="text"
+        [(ngModel)]="searchInput"
+        [placeholder]="searchPlaceholder"
+      />
+    </div>
+    <div class="table-datasets-container">
+      <article>
+        <header>
+          <h2>Tabla de datos</h2>
+          <p>Todos los productos y sus respectivas cantidades por puerto en México.</p>
+        </header>
+        <div class="table-responsive" style="overflow-x: auto">
+          <table class="striped">
+            <thead>
+              <tr>
+                <th scope="col">Cargo</th>
+                @for (port of sourceData().ports; track $index) {
+                  <th scope="col">{{ port }}</th>
+                }
+              </tr>
+            </thead>
+            <tbody>
+              @for (
+                item of sourceData().data | filterInPort: searchInput;
+                track $index
+              ) {
+                <tr>
+                  <th scope="row">{{ item.name }}</th>
+                  @for (port of sourceData().ports; track $index) {
+                    <td>{{ getPortValue(item, port) | tonFormat }}</td>
+                  }
+                </tr>
+              } @empty {
+                <tr></tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </article>
+    </div>
+  </article>
+</div>

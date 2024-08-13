@@ -1,0 +1,74 @@
+@if (dataState == DataStatus.Loaded) {
+  <div class="loaded-page container" id="main-container">
+    <h1 style="margin-top: 20px;">Twin Marine de México</h1>
+    <p>Secciones disponibles</p>
+    <div class="grid">
+      <button
+        type="button"
+        [ngClass]="{ outline: sectionSelected != 'per-litoral' }"
+        (click)="onSectionSelect('per-litoral')"
+      >
+        Por zona litoral
+      </button>
+      <button
+        type="button"
+        [ngClass]="{ outline: sectionSelected != 'per-port' }"
+        (click)="onSectionSelect('per-port')"
+      >
+        Por productos en puertos
+      </button>
+    </div>
+    <div class="container">
+      @if (dataVault.length > 1) {
+        <p>De click en el año que quiera visualizar</p>
+      }
+      <div class="grid">
+        @for (item of dataVault; track item.year) {
+          <button
+            type="button"
+            (click)="onYearSelected(item.year)"
+            type="button"
+            [ngClass]="{ outline: item.year != yearSelected }"
+          >
+            {{ item.year }}
+          </button>
+        } @empty {
+          <button aria-busy="true">Loading years...</button>
+        }
+      </div>
+    </div>
+    @if (sectionSelected == 'per-litoral') {
+      <chart-per-litoral [sourceData]="litoralData"></chart-per-litoral>
+    } @else if (sectionSelected == 'per-port') {
+      <chart-per-port [sourceData]="portPackage"></chart-per-port>
+    } @else {
+      <p>No data available</p>
+    }
+  </div>
+} @else if (dataState == DataStatus.Loading) {
+  <div class="loading-page">
+    <article>
+      <progress></progress>
+    </article>
+  </div>
+} @else if (dataState == DataStatus.Error) {
+  <div class="bootstrap">
+    <div class="error-page">
+      <article>
+        <div class="text-center">
+          <p class="h1 mt-5">Whoops!</p>
+          <p class="h2">Something happened :(</p>
+          <!-- Algo paso, checa con nuestro equipo en ingles -->
+          <p>
+            Try again refreshing the page or
+            <u (click)="reloadData()">Click on here!</u>
+          </p>
+          <p>Twin Marine de México, S.A. DE C.V.</p>
+          <a>
+            <img class="img-thumbnail" src="assets/vessels.jpg" alt="" />
+          </a>
+        </div>
+      </article>
+    </div>
+  </div>
+}

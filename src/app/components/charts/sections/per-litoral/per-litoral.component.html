@@ -1,0 +1,107 @@
+<div class="container">
+  <article>
+    <h6 style="text-align: center">Comparativa del tonelaje total entre el golfo y el pacifico</h6>
+    <div class="chart" style="width: 80%" #pieChartContainer></div>
+    <table class="first-table">
+      <thead>
+        <tr>
+          <th>Zona litoral</th>
+          <th>Cantidad en toneladas</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th>Pacific</th>
+          <td>{{ sourceData().pacific.total.toLocaleString() }}</td>
+        </tr>
+        <tr>
+          <th>Gulf</th>
+          <td>{{ sourceData().gulf.total.toLocaleString() }}</td>
+          <!-- [ ] change to a getter-->
+        </tr>
+      </tbody>
+    </table>
+  </article>
+  <hr />
+  <article>
+    <div class="grid">
+      <div>
+        <p class="bar-title">Productos en el pacífico</p>
+        <div class="chart pie" #pacificBarContainer></div>
+      </div>
+      <div>
+        <p class="bar-title">Productos en el golfo</p>
+        <div class="chart pie" #gulfBarContainer></div>
+      </div>
+    </div>
+  </article>
+  <article>
+    <div>
+      <label for="searchInput" class=""
+        >Busqueda por producto</label
+      >
+      <input
+        id="searchInput"
+        type="text"
+        [(ngModel)]="searchInput"
+        [placeholder]="searchPlaceholder"
+      />
+    </div>
+    <div class="table-datasets-container">
+      <article>
+        <header>
+          <p>Tabla del pacífico</p>
+          <div class="marker pacific"></div>
+        </header>
+        <table class="table-datasets pacific-table">
+          <thead>
+            <tr>
+              <th>Nombre</th>
+              <th>Cantidad en tonelajes</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (
+              item of getPacificProducts() | filter: searchInput;
+              track $index
+            ) {
+              <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.value | tonFormat }}</td>
+              </tr>
+            } @empty {
+              <tr></tr>
+            }
+          </tbody>
+        </table>
+      </article>
+      <article>
+        <header>
+          <p>Tabla del golfo</p>
+          <div class="marker gulf"></div>
+        </header>
+        <table class="table-datasets gulf-table">
+          <thead>
+            <tr>
+              <th>Cargo</th>
+              <th>Quantity in tons</th>
+            </tr>
+          </thead>
+          <tbody>
+            @for (
+              item of getGulfProducts() | filter: searchInput;
+              track $index
+            ) {
+              <tr>
+                <td>{{ item.name }}</td>
+                <td>{{ item.value | tonFormat }}</td>
+              </tr>
+            } @empty {
+              <tr></tr>
+            }
+          </tbody>
+        </table>
+      </article>
+    </div>
+  </article>
+</div>
